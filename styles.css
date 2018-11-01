@@ -1,0 +1,28 @@
+html{
+	background-color:black;
+	font-family: 'Geo', sans-serif;
+	color:white;
+
+}
+
+body{
+	text-align:center;
+}
+
+canvas{
+	object-fit: scale-down;
+}
+
+span{
+	font-size: 35px;
+}
+
+p{
+	font-size: 30px;
+}
+
+
+h1{
+
+}
+
