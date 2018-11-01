@@ -8,6 +8,9 @@ html{
 body{
 	text-align:center;
 	overflow: hidden;
+	position:fixed;
+	left: 50%;
+	margin-left:-400px;
 }
 
 canvas{
