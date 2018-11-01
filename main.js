@@ -71,7 +71,7 @@ function loop(){
 	else if(dir == 4){py += 20;}
 	}
 	
-	console.log(warp);
+
 	
 	// draw wall
 	var b = 0;
