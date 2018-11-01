@@ -380,8 +380,8 @@ function levelstart(){
 	v2 = (Math.floor(Math.random() * 8) + 4) * 2 ;
 	h3 = (Math.floor(Math.random() * 8) + 4) * 2 ;
 	v3 = (Math.floor(Math.random() * 8) + 4) * 2 ;
-	hy.push(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10))
-	vx.push(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10))
+	hy.push(Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2))
+	vx.push(Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2))
 	level = level + 1;
 	slow++
 	if(slow > 7){slow = 7;}
