@@ -1,7 +1,7 @@
 let cnv = document.getElementById("myCanvas");
 let ctx = cnv.getContext("2d");
-cnv.width = 800;
-cnv.height = 600;
+cnv.width = window.innerWidth;
+cnv.height = window.innerHeight;
 
 var gameover = false;
 var lives = 3;
@@ -27,14 +27,17 @@ var dead = false;
 var finish = false;
 var warp = true;
 var warping = false;
+var startintro = true;
+var levelintro = true;
+var intro = 0;
 
 var interval = setInterval(loop, speed);
-
 
 levelstart();
 
 document.addEventListener("keydown", keydownhandler);
 
+ctx.scale(window.innerWidth / 46 / 20, window.innerHeight / 30 / 20)
 
 
 function keydownhandler(){
@@ -55,6 +58,105 @@ function keydownhandler(){
 
 
 function loop(){
+	
+	if(intro < 10 * (500 / speed)){
+	
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, cnv.width, cnv.height)
+	if(startintro == true && intro < 3 * (500 / speed)){
+	write(["e", "a", "t"], "white", 321, 221);
+	}
+	else if(startintro == true && intro < 7 * (500 / speed)){
+	write(["l", "e", "v", "e", "l", " ", "1"], "white", 121, 221);
+	}
+	else if(startintro == true && intro < 10 * (500 / speed)){
+	write(["3", " ", "g", "u", "y", "s", " ", "l", "e", "f", "t"], "lime", 21, 221);
+	}
+	
+	if(levelintro == true && intro < 5 * (500 / speed) && startintro == false){
+	write(["l", "e", "v", "e", "l", " ", level], "white", 121, 221);
+	}
+	
+	else if(intro < 10 * (500 / speed) && startintro == false){
+	if(lives == 3){
+	write(["3", " ", "g", "u", "y", "s", " ", "l", "e", "f", "t"], "lime", 21, 221);
+	}
+	if(lives == 2){
+	write(["2", " ", "g", "u", "y", "s", " ", "l", "e", "f", "t"], "yellow", 21, 221);
+	}
+	if(lives == 1){
+	write(["1", " ", "g", "u", "y", " ", "l", "e", "f", "t"], "red", 61, 221);
+	}
+	} 
+
+	intro = intro + 1;
+	
+		// draw wall
+	var b = 0;
+	var bx = 1;
+	var by = 1;
+	
+
+	while(b != 149){
+		
+	ctx.fillRect(bx, by, 18, 18);
+	ctx.fillStyle = "gray";
+	
+	b = b + 1;
+	
+	if(b < 30){
+	by = by + 20;
+	}
+	
+	else if(b > 29 && b < 75){
+	bx = bx + 20;
+	
+	if (b == 30 && level > 0){ctx.fillStyle = "blue";}
+	if (b == 32 && level > 1){ctx.fillStyle = "green";}	
+	if (b == 34 && level > 2){ctx.fillStyle = "yellow";}
+	if (b == 36 && level > 3){ctx.fillStyle = "orange";}
+	if (b == 38 && level > 4){ctx.fillStyle = "red";}
+	if (b == 40 && level > 5){ctx.fillStyle = "violet";}
+	if (b == 42 && level > 6){ctx.fillStyle = "pink";}
+	if (b == 44 && level > 7){ctx.fillStyle = "orangered";}
+	if (b == 46 && level > 8){ctx.fillStyle = "aqua";}
+	if (b == 48 && level > 9){ctx.fillStyle = "DarkKhaki";}
+	if (b == 50 && level > 10){ctx.fillStyle = "white";}
+	if (b == 52 && level > 11){ctx.fillStyle = "lime";}
+	if (b == 54 && level > 12){ctx.fillStyle = "magenta";}
+	if (b == 56 && level > 13){ctx.fillStyle = "navy";}
+	if (b == 58 && level > 14){ctx.fillStyle = "Sienna";}
+	if (b == 60 && level > 15){ctx.fillStyle = "SpringGreen";}
+	if (b == 62 && level > 16){ctx.fillStyle = "brown";}
+	if (b == 64 && level > 17){ctx.fillStyle = "YellowGreen";}
+	if (b == 66 && level > 18){ctx.fillStyle = "DarkCyan";}
+	if (b == 68 && level > 19){ctx.fillStyle = "coral";}
+	if (b == 70 && level > 20){ctx.fillStyle = "Cornsilk";}
+	if (b == 72 && level > 21){ctx.fillStyle = "Crimson";}
+	if (b == 74 && level > 22){ctx.fillStyle = "AliceBlue";}
+	}
+	
+	else if(b < 104){
+	by = by - 20;
+	}
+	
+	else if(b < 149){
+	bx = bx - 20;0
+	
+	if (b == 147 && lives == 3) {ctx.fillStyle = "lime";}
+	if (b == 145 && lives == 3) {ctx.fillStyle = "lime";}
+	if (b == 143 && lives == 3) {ctx.fillStyle = "lime";}
+	if (b == 147 && lives == 2) {ctx.fillStyle = "yellow";}
+	if (b == 145 && lives == 2) {ctx.fillStyle = "yellow";}
+	if (b == 147 && lives == 1) {ctx.fillStyle = "red";}
+	}
+	} 
+	}
+	
+	else{
+	startintro = false;
+	levelintro = false;
+	
 	//draw back
 	if(warping == true){ctx.fillStyle = "orangered";}
 	else if(gameover == true) {ctx.fillStyle = "darkred";}
@@ -79,34 +181,66 @@ function loop(){
 	var by = 1;
 	
 
-	while(b != 136){
+	while(b != 149){
 		
+	ctx.fillRect(bx, by, 18, 18);
 	ctx.fillStyle = "gray";
-	ctx.fillRect(bx, by, 18, 18);	
+	
 	b = b + 1;
 	
 	if(b < 30){
 	by = by + 20;
 	}
 	
-	else if(b > 29 && b < 69){
+	else if(b > 29 && b < 75){
 	bx = bx + 20;
+	
+	if (b == 30 && level > 0){ctx.fillStyle = "blue";}
+	if (b == 32 && level > 1){ctx.fillStyle = "green";}	
+	if (b == 34 && level > 2){ctx.fillStyle = "yellow";}
+	if (b == 36 && level > 3){ctx.fillStyle = "orange";}
+	if (b == 38 && level > 4){ctx.fillStyle = "red";}
+	if (b == 40 && level > 5){ctx.fillStyle = "violet";}
+	if (b == 42 && level > 6){ctx.fillStyle = "pink";}
+	if (b == 44 && level > 7){ctx.fillStyle = "orangered";}
+	if (b == 46 && level > 8){ctx.fillStyle = "aqua";}
+	if (b == 48 && level > 9){ctx.fillStyle = "DarkKhaki";}
+	if (b == 50 && level > 10){ctx.fillStyle = "white";}
+	if (b == 52 && level > 11){ctx.fillStyle = "lime";}
+	if (b == 54 && level > 12){ctx.fillStyle = "magenta";}
+	if (b == 56 && level > 13){ctx.fillStyle = "navy";}
+	if (b == 58 && level > 14){ctx.fillStyle = "Sienna";}
+	if (b == 60 && level > 15){ctx.fillStyle = "SpringGreen";}
+	if (b == 62 && level > 16){ctx.fillStyle = "brown";}
+	if (b == 64 && level > 17){ctx.fillStyle = "YellowGreen";}
+	if (b == 66 && level > 18){ctx.fillStyle = "DarkCyan";}
+	if (b == 68 && level > 19){ctx.fillStyle = "coral";}
+	if (b == 70 && level > 20){ctx.fillStyle = "Cornsilk";}
+	if (b == 72 && level > 21){ctx.fillStyle = "Crimson";}
+	if (b == 74 && level > 22){ctx.fillStyle = "AliceBlue";}
 	}
 	
-	else if(b < 98){
+	else if(b < 104){
 	by = by - 20;
 	}
 	
-	else if(b < 140){
+	else if(b < 149){
 	bx = bx - 20;0
+	
+	if (b == 147 && lives == 3) {ctx.fillStyle = "lime";}
+	if (b == 145 && lives == 3) {ctx.fillStyle = "lime";}
+	if (b == 143 && lives == 3) {ctx.fillStyle = "lime";}
+	if (b == 147 && lives == 2) {ctx.fillStyle = "yellow";}
+	if (b == 145 && lives == 2) {ctx.fillStyle = "yellow";}
+	if (b == 147 && lives == 1) {ctx.fillStyle = "red";}
 	}
 	} 
 	
 	// wall teleporting
 	if(py > 561){py = 21; warp = false;}
 	if(py < 21){py = 561; warp = false;}
-	if(px < 21){px = 761; warp = false;}
-	if(px > 761){px = 21; warp = false;}
+	if(px < 21){px = 881; warp = false;}
+	if(px > 881){px = 21; warp = false;}
 	
 
 	
@@ -122,7 +256,7 @@ function loop(){
 		setTimeout(newlife, 1000);
 		px = 21;
 		py = 561;
-		mx = 761;
+		mx = 881;
 		my = 21;
 		}
 	}
@@ -130,7 +264,7 @@ function loop(){
 	
 	// food
 	{//h1
-	var fx = 401 - (h1 * 20) / 2;
+	var fx = 461 - (h1 * 20) / 2;
 	var fy = 281 - hy[3] * 20;
 	for (i = 0; i < h1; i++){
 	if(!food.includes("h1" + fx, 0)){
@@ -144,7 +278,7 @@ function loop(){
 	fx = fx + 20;
 }
 
-	var fx = 401 - (h1 * 20) / 2;
+	var fx = 461 - (h1 * 20) / 2;
 	var fy = 301 + hy[3] * 20;
 	for (i = 0; i < h1; i++){
 	if(!food.includes("h2" + fx, 0)){
@@ -160,7 +294,7 @@ function loop(){
 	}
 	
 	{//v1
-	var fx = 401 + vx[3] * 20;
+	var fx = 461 + vx[3] * 20;
 	var fy = 301 - (v1 * 20) / 2;;
 	for (i = 0; i < v1; i++){
 	if(!food.includes("v1" + fy, 0)){
@@ -174,7 +308,7 @@ function loop(){
 	fy = fy + 20;
 }
 
-	var fx = 381 - vx[3] * 20;
+	var fx = 441 - vx[3] * 20;
 	var fy = 301 - (v1 * 20) / 2;
 	for (i = 0; i < v1; i++){
 	if(!food.includes("v2" + fy, 0)){
@@ -192,7 +326,7 @@ function loop(){
 	if(level > 1){
 		
 	{//h2
-	var fx = 401 - (h2 * 20) / 2;
+	var fx = 461 - (h2 * 20) / 2;
 	var fy = 281 - hy[2] * 20;
 	for (i = 0; i < h2; i++){
 	if(!food.includes("h3" + fx, 0)){
@@ -206,7 +340,7 @@ function loop(){
 	fx = fx + 20;
 }
 
-	var fx = 401 - (h2 * 20) / 2;
+	var fx = 461 - (h2 * 20) / 2;
 	var fy = 301 + hy[2] * 20;
 	for (i = 0; i < h2; i++){
 	if(!food.includes("h4" + fx, 0)){
@@ -222,7 +356,7 @@ function loop(){
 	}
 	
 	{//v2
-	var fx = 401 + vx[2] * 20;
+	var fx = 461 + vx[2] * 20;
 	var fy = 301 - (v2 * 20) / 2;;
 	for (i = 0; i < v2; i++){
 	if(!food.includes("v3" + fy, 0)){
@@ -236,7 +370,7 @@ function loop(){
 	fy = fy + 20;
 }
 
-	var fx = 381 - vx[2] * 20;
+	var fx = 441 - vx[2] * 20;
 	var fy = 301 - (v2 * 20) / 2;
 	for (i = 0; i < v2; i++){
 	if(!food.includes("v4" + fy, 0)){
@@ -257,7 +391,7 @@ function loop(){
 	if(level > 3){
 		
 	{//h3
-	var fx = 401 - (h3 * 20) / 2;
+	var fx = 461 - (h3 * 20) / 2;
 	var fy = 281 - hy[1] * 20;
 	for (i = 0; i < h3; i++){
 	if(!food.includes("h5" + fx, 0)){
@@ -271,7 +405,7 @@ function loop(){
 	fx = fx + 20;
 }
 
-	var fx = 401 - (h3 * 20) / 2;
+	var fx = 461 - (h3 * 20) / 2;
 	var fy = 301 + hy[1] * 20;
 	for (i = 0; i < h3; i++){
 	if(!food.includes("h6" + fx, 0)){
@@ -287,7 +421,7 @@ function loop(){
 	}
 	
 {//v3
-	var fx = 401 + vx[1] * 20;
+	var fx = 461 + vx[1] * 20;
 	var fy = 301 - (v3 * 20) / 2;;
 	for (i = 0; i < v3; i++){
 	if(!food.includes("v5" + fy, 0)){
@@ -301,7 +435,7 @@ function loop(){
 	fy = fy + 20;
 }
 
-	var fx = 381 - vx[1] * 20;
+	var fx = 441 - vx[1] * 20;
 	var fy = 301 - (v3 * 20) / 2;
 	for (i = 0; i < v3; i++){
 	if(!food.includes("v6" + fy, 0)){
@@ -320,7 +454,6 @@ function loop(){
 	}
 
 	
-	document.getElementById("food").innerHTML = left;
 	//draw player/monster
 	if(dead == false){
 	ctx.fillStyle = "yellow";
@@ -331,22 +464,19 @@ function loop(){
 	
 	
 	if(lives == 3){
-	document.getElementById("lifeleft").style.color = "green";
-	document.getElementById("lifeleft").innerHTML = "3";
+
 	}
 	
 	else if(lives == 2){
-	document.getElementById("lifeleft").style.color = "yellow";
-	document.getElementById("lifeleft").innerHTML = "2";
+
 	}
 	
 	else if(lives == 1){
-	document.getElementById("lifeleft").style.color = "red";
-	document.getElementById("lifeleft").innerHTML = "1";
+
 	}
 	
 	else if(lives == 0){
-	lives = -1;
+	lives = 3;
 	gameover = true;
 	finish = true;
 	setTimeout(gameend, 1500);
@@ -357,22 +487,25 @@ function loop(){
 	finish = true;
 	if(warp == true){
 	warping = true;
-	slow = 6;
-	level = 4;
-	speed = 200;
 	}
 	setTimeout(levelstart, 1000);
 	}
 	
-	document.getElementById("levelnum").innerHTML = level;
-	
 
+ 
+}
 }
 
 function levelstart(){
+	if(warping == true){
+	slow = 6;
+	level = 4;
+	speed = 200;	
+	}
+	
 	px = 21;
 	py = 561;
-	mx = 761;
+	mx = 881;
 	my = 21;
 	h1 = (Math.floor(Math.random() * 8) + 4) * 2 ;
 	v1 = (Math.floor(Math.random() * 8) + 4) * 2 ;
@@ -381,7 +514,7 @@ function levelstart(){
 	h3 = (Math.floor(Math.random() * 8) + 4) * 2 ;
 	v3 = (Math.floor(Math.random() * 8) + 4) * 2 ;
 	hy.push(Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2))
-	vx.push(Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2))
+	vx.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
 	level = level + 1;
 	slow++
 	if(slow > 7){slow = 7;}
@@ -396,7 +529,9 @@ function levelstart(){
 	else{left = h1 * 2 + v1 * 2 + h2 * 2 + v2 * 2;}
 	clearInterval(interval);
 	interval = setInterval(loop, speed);
+	levelintro = true;
 	warping = false;
+	intro = 0;
 }
 
 function levelcycle(){
@@ -410,11 +545,12 @@ function newlife(){
 	if (gameover == false){
 	px = 21;
 	py = 561;
-	mx = 761;
+	mx = 881;
 	my = 21;
 	dir = 0;
 	lives--;
 	dead = false;
+	intro = 5;
 	}
 }
 
@@ -422,6 +558,7 @@ function gameend(){
 	speed = 500;
 	hy = ["e"];
 	vx = ["e"];
+	startintro = true;
 	levelstart();
 	level = 1;
 	slow = 2;
@@ -432,6 +569,7 @@ function gameend(){
 	else if(level > 3){left = h1 * 2 + v1 * 2 + h2 * 2 + v2 * 2 + h3 * 2 + v3 * 2;}
 	else{left = h1 * 2 + v1 * 2 + h2 * 2 + v2 * 2;}
 	warp = true;
+
 }
 
 
@@ -479,3 +617,64 @@ function handleTouchMove(evt) {
     xDown = null;
     yDown = null;                                             
 };
+
+
+
+// writes string on canvas
+function write(string, color, x, y){
+	ctx.fillStyle = color;
+	var w1 = [ ]; 
+	var w2 = [ ];
+	var w3 = [ ];
+	var w4 = [ ];
+	var w5 = [ ];	
+	var v = 0;
+	while(v < 44){
+	if(string[v] == "a"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 0, 1);}
+	if(string[v] == "b"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "c"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 0, 0); w4.push(0, 1, 0, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "d"){w1.push(0, 1, 1, 0); w2.push(0, 1, 0, 1); w3.push(0, 1, 0, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 0);}
+	if(string[v] == "e"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 1, 0); w4.push(0, 1, 0, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "f"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 0); w5.push(0, 1, 0, 0);}
+	if(string[v] == "g"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 0, 0); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "h"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 0, 1);}
+	if(string[v] == "i"){w1.push(0, 1, 1, 1); w2.push(0, 0, 1, 0); w3.push(0, 0, 1, 0); w4.push(0, 0, 1, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "j"){w1.push(0, 0, 0, 1); w2.push(0, 0, 0, 1); w3.push(0, 0, 0, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "k"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 0); w4.push(0, 1, 0, 1); w5.push(0, 1, 0, 1);}
+	if(string[v] == "l"){w1.push(0, 1, 0, 0); w2.push(0, 1, 0, 0); w3.push(0, 1, 0, 0); w4.push(0, 1, 0, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "m"){w1.push(0, 1, 0, 1); w2.push(0, 1, 1, 1); w3.push(0, 1, 0, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 0, 1);}
+	if(string[v] == "n"){w1.push(0, 1, 0, 1); w2.push(0, 1, 1, 1); w3.push(0, 1, 1, 1); w4.push(0, 1, 1, 1); w5.push(0, 1, 0, 1);}
+	if(string[v] == "o"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 0, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "p"){w1.push(0, 1, 1, 0); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 0); w4.push(0, 1, 0, 0); w5.push(0, 1, 0, 0);}
+	if(string[v] == "q"){w1.push(0, 0, 1, 0); w2.push(0, 1, 0, 1); w3.push(0, 1, 0, 1); w4.push(0, 0, 1, 0); w5.push(0, 0, 0, 1);}
+	if(string[v] == "r"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 0); w4.push(0, 1, 0, 1); w5.push(0, 1, 0, 1);}
+	if(string[v] == "s"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 1, 1); w4.push(0, 0, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "t"){w1.push(0, 1, 1, 1); w2.push(0, 0, 1, 0); w3.push(0, 0, 1, 0); w4.push(0, 0, 1, 0); w5.push(0, 0, 1, 0);}	
+	if(string[v] == "u"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 0, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "v"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 0, 1); w4.push(0, 1, 0, 1); w5.push(0, 0, 1, 0);}
+	if(string[v] == "w"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 0, 1); w4.push(0, 1, 1, 1); w5.push(0, 1, 0, 1);}
+	if(string[v] == "x"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 0, 1, 0); w4.push(0, 1, 0, 1); w5.push(0, 1, 0, 1);}
+	if(string[v] == "y"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 0, 1, 0); w4.push(0, 0, 1, 0); w5.push(0, 0, 1, 0);}
+	if(string[v] == "z"){w1.push(0, 1, 1, 1); w2.push(0, 0, 0, 1); w3.push(0, 0, 1, 0); w4.push(0, 1, 0, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "1"){w1.push(0, 0, 1, 0); w2.push(0, 1, 1, 0); w3.push(0, 0, 1, 0); w4.push(0, 0, 1, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "2"){w1.push(0, 1, 1, 1); w2.push(0, 0, 0, 1); w3.push(0, 0, 1, 0); w4.push(0, 1, 0, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "3"){w1.push(0, 1, 1, 1); w2.push(0, 0, 0, 1); w3.push(0, 0, 1, 1); w4.push(0, 0, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "4"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 0, 0, 1); w5.push(0, 0, 0, 1);}
+	if(string[v] == "5"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 0, 1, 0); w4.push(0, 0, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "6"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "7"){w1.push(0, 1, 1, 1); w2.push(0, 0, 0, 1); w3.push(0, 0, 0, 1); w4.push(0, 0, 1, 0); w5.push(0, 0, 1, 0);}
+	if(string[v] == "8"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 0, 1, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "9"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 0, 0, 1); w5.push(0, 0, 0, 1);}
+	if(string[v] == "0"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 0, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == " "){w1.push(0, 0, 0, 0); w2.push(0, 0, 0, 0); w3.push(0, 0, 0, 0); w4.push(0, 0, 0, 0); w5.push(0, 0, 0, 0);}
+
+	if(w1[v] == 1) {ctx.fillRect(x + v * 20, y, 18, 18)}
+	if(w2[v] == 1) {ctx.fillRect(x + v * 20, y + 20, 18, 18)}
+	if(w3[v] == 1) {ctx.fillRect(x + v * 20, y + 40, 18, 18)}
+	if(w4[v] == 1) {ctx.fillRect(x + v * 20, y + 60, 18, 18)}
+	if(w5[v] == 1) {ctx.fillRect(x + v * 20, y + 80, 18, 18)}
+	v = v + 1;
+	
+
+	}
+}

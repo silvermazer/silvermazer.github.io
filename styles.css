@@ -2,31 +2,23 @@ html{
 	background-color:black;
 	font-family: 'Geo', sans-serif;
 	color:white;
-
+	margin: 0;
 }
 
 body{
 	text-align:center;
 	overflow: hidden;
 	position:fixed;
-	left: 50%;
-	margin-left:-400px;
+	margin: 0;
 }
 
 canvas{
 	object-fit: scale-down;
+	margin: 0;
 }
 
 span{
 	font-size: 35px;
 }
 
-p{
-	font-size: 30px;
-}
-
-
-h1{
-
-}
 
