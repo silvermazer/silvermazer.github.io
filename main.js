@@ -3,7 +3,7 @@ let ctx = cnv.getContext("2d");
 cnv.width = window.innerWidth;
 cnv.height = window.innerHeight;
 
-var frequency = 80.0;
+var frequency = 100;
 var frequencyold;
 var context = new AudioContext();
 var o = context.createOscillator();
@@ -288,7 +288,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h1" + fx);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -304,7 +304,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h2" + fx);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -322,7 +322,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v1" + fy);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -338,7 +338,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v2" + fy);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -358,7 +358,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h3" + fx);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -374,7 +374,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h4" + fx);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -392,7 +392,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v3" + fy);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -408,7 +408,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v4" + fy);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -431,7 +431,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h5" + fx);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -447,7 +447,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h6" + fx);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -465,7 +465,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v5" + fy);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -481,7 +481,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v6" + fy);
 		left -= 1;
-		if(frequency == 80){frequency = 800;}
+		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
 	}
@@ -498,7 +498,7 @@ function loop(){
 	frequencyold = frequency;
 	}
 	else if(frequencyold == frequency){
-	frequency = 80;
+	frequency = 100;
 	}
 	
 	o = context.createOscillator();
@@ -508,8 +508,8 @@ function loop(){
 	g.connect(context.destination);
 	o.start();
 	o.frequency.value = frequency;
-	g.gain.setTargetAtTime(0, context.currentTime, 0.09);
-	o.stop(context.currentTime + 0.1);
+	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.5)
+	o.stop(context.currentTime + 1);
 	
 	//draw player/monster
 	if(dead == false){
