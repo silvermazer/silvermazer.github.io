@@ -3,6 +3,8 @@ let ctx = cnv.getContext("2d");
 cnv.width = window.innerWidth;
 cnv.height = window.innerHeight;
 
+var pitchold;
+var pitch = 2;
 var gameover = false;
 var lives = 3;
 var speed = 600;
@@ -33,7 +35,11 @@ var intro = 0;
 
 var interval = setInterval(loop, speed);
 
+
 levelstart();
+
+var synth; 
+
 
 document.addEventListener("keydown", keydownhandler);
 
@@ -44,6 +50,7 @@ function keydownhandler(){
 	// set movement dir
 	if(event.code == "ArrowRight"){
 	dir = 3;
+	synth = new Tone.Synth().toMaster()
 	}
 	if(event.code == "ArrowLeft"){
 	dir = 1;
@@ -53,11 +60,14 @@ function keydownhandler(){
 	}
 	if(event.code == "ArrowDown"){
 	dir = 4;
+
 	}
+	
 }
 
 
 function loop(){
+	
 	
 	if(intro < 10 * (500 / speed)){
 	
@@ -154,6 +164,8 @@ function loop(){
 	}
 	
 	else{
+
+
 	startintro = false;
 	levelintro = false;
 	
@@ -258,9 +270,13 @@ function loop(){
 		py = 561;
 		mx = 881;
 		my = 21;
+		synth.triggerAttackRelease('A0', '1')
 		}
 	}
 	}
+	
+	
+
 	
 	// food
 	{//h1
@@ -273,6 +289,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h1" + fx);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fx = fx + 20;
@@ -287,6 +304,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h2" + fx);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fx = fx + 20;
@@ -303,6 +321,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v1" + fy);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fy = fy + 20;
@@ -317,6 +336,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v2" + fy);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fy = fy + 20;
@@ -335,6 +355,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h3" + fx);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fx = fx + 20;
@@ -349,6 +370,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h4" + fx);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fx = fx + 20;
@@ -365,6 +387,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v3" + fy);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fy = fy + 20;
@@ -379,6 +402,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v4" + fy);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fy = fy + 20;
@@ -400,6 +424,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h5" + fx);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fx = fx + 20;
@@ -414,6 +439,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("h6" + fx);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fx = fx + 20;
@@ -430,6 +456,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v5" + fy);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fy = fy + 20;
@@ -444,6 +471,7 @@ function loop(){
 	if(fx == px && fy == py){
 		food.push("v6" + fy);
 		left -= 1;
+		if(pitchold == pitch){pitch = pitch + 1;}
 		}
 	}
 	fy = fy + 20;
@@ -452,7 +480,24 @@ function loop(){
 	
 }
 	}
+	
+	
+	//sound
+	
 
+	
+	if(pitchold == pitch){
+	pitch = 2;
+	}
+		
+	else if(pitchold !== pitch){
+	pitchold = pitch;
+	}
+
+	if(pitch > 7) {pitch = 2;}
+	
+	synth = new Tone.Synth().toMaster()
+	synth.triggerAttackRelease('G' + pitch, '0.0002')
 	
 	//draw player/monster
 	if(dead == false){
@@ -462,20 +507,9 @@ function loop(){
 	ctx.fillStyle = "red";
 	ctx.fillRect(mx, my, 18, 18);
 	
-	
-	if(lives == 3){
 
-	}
 	
-	else if(lives == 2){
-
-	}
-	
-	else if(lives == 1){
-
-	}
-	
-	else if(lives == 0){
+	if(lives == 0){
 	lives = 3;
 	gameover = true;
 	finish = true;

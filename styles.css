@@ -1,19 +1,15 @@
 html{
 	background-color:black;
-	font-family: 'Geo', sans-serif;
-	color:white;
 	margin: 0;
 }
 
 body{
-	text-align:center;
 	overflow: hidden;
 	position:fixed;
 	margin: 0;
 }
 
 canvas{
-	object-fit: scale-down;
 	margin: 0;
 }
 
