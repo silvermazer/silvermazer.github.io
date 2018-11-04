@@ -16,12 +16,14 @@ var slow = 1;
 var left;
 var hy = ["e"];
 var vx = ["e"]; 
+var ax = ["e"];
 var h1;
 var h2;
 var h3;
 var v1;
 var v2;
 var v3;
+var a1;
 var food = ["e"];
 var mx = 781;
 var my = 1;
@@ -263,14 +265,7 @@ function loop(){
 	if(px < mx){mx = mx - 20;}
 	if(py > my){my = my + 20;}
 	if(py < my){my = my - 20;}
-	if(px == mx && py == my && lives != 0){
-		dead = true; 
-		setTimeout(newlife, 1000);
-		px = 21;
-		py = 561;
-		mx = 881;
-		my = 21;
-		}
+
 	}
 	}
 	
@@ -291,6 +286,8 @@ function loop(){
 		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
+	if(441 - ax[1] * 20 == fx && level > 4) {food.push("h1" + fx); left -= 1;}
+	if(461 + ax[1] * 20 == fx && level > 4) {food.push("h1" + fx); left -= 1;}
 	}
 	fx = fx + 20;
 }
@@ -307,6 +304,8 @@ function loop(){
 		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
+	if(441 - ax[1] * 20 == fx && level > 4) {food.push("h2" + fx); left -= 1;}
+	if(461 + ax[1] * 20 == fx && level > 4) {food.push("h2" + fx); left -= 1;}
 	}
 	fx = fx + 20;
 }
@@ -361,6 +360,8 @@ function loop(){
 		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
+	if(441 - ax[1] * 20 == fx && level > 4) {food.push("h3" + fx); left -= 1;}
+	if(461 + ax[1] * 20 == fx && level > 4) {food.push("h3" + fx); left -= 1;}	
 	}
 	fx = fx + 20;
 }
@@ -377,6 +378,8 @@ function loop(){
 		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
+	if(441 - ax[1] * 20 == fx && level > 4) {food.push("h4" + fx); left -= 1;}
+	if(461 + ax[1] * 20 == fx && level > 4) {food.push("h4" + fx); left -= 1;}
 	}
 	fx = fx + 20;
 }
@@ -434,6 +437,8 @@ function loop(){
 		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
+	if(441 - ax[1] * 20 == fx && level > 4) {food.push("h5" + fx); left -= 1;}
+	if(461 + ax[1] * 20 == fx && level > 4) {food.push("h5" + fx); left -= 1;}
 	}
 	fx = fx + 20;
 }
@@ -450,6 +455,8 @@ function loop(){
 		if(frequency == 100){frequency = 800;}
 		else if (frequencyold == frequency){frequency = frequency - 25;}
 		}
+	if(441 - ax[1] * 20 == fx && level > 4) {food.push("h6" + fx); left -= 1;}
+	if(461 + ax[1] * 20 == fx && level > 4) {food.push("h6" + fx); left -= 1;}
 	}
 	fx = fx + 20;
 }
@@ -511,6 +518,52 @@ function loop(){
 	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.5)
 	o.stop(context.currentTime + 1);
 	
+	//white lines
+	
+	if(level > 4){
+	{//a1
+	var fx = 461 + ax[1] * 20;
+	var fy = 301 - (a1 * 20) / 2;;
+	for (i = 0; i < a1; i++){
+	ctx.fillStyle = "White"
+	ctx.fillRect(fx, fy, 18, 18);
+	if(px == fx && py == fy){
+	if(dir == 1){px = px + 20;}
+	if(dir == 2){py = py + 20;}
+	if(dir == 3){px = px - 20;}
+	if(dir == 4){py = py - 20;}
+	}
+	if(mx == fx && my == fy){
+	if(px > mx)	{mx = mx - 20;}
+	if(px < mx)	{mx = mx + 20;}
+	}
+	
+	fy = fy + 20;
+}
+	
+
+	var fx = 441 - ax[1] * 20;
+	var fy = 301 - (a1 * 20) / 2;
+	for (i = 0; i < a1; i++){
+	ctx.fillStyle = "White"
+	ctx.fillRect(fx, fy, 18, 18);
+	if(px == fx && py == fy){
+	if(dir == 1){px = px + 20;}
+	if(dir == 2){py = py + 20;}
+	if(dir == 3){px = px - 20;}
+	if(dir == 4){py = py - 20;}
+	}
+	if(mx == fx && my == fy){
+	if(px > mx)	{mx = mx - 20;}
+	if(px < mx)	{mx = mx + 20;}
+	}
+	fy = fy + 20;
+}		
+	
+	
+}
+	}
+	
 	//draw player/monster
 	if(dead == false){
 	ctx.fillStyle = "yellow";
@@ -537,7 +590,17 @@ function loop(){
 	setTimeout(levelstart, 1000);
 	}
 	
-
+	//death
+	if(finish == false){
+		if(px == mx && py == my && lives != 0){
+		dead = true; 
+		setTimeout(newlife, 1000);
+		px = 21;
+		py = 561;
+		mx = 881;
+		my = 21;
+		}
+	}
  
 }
 }
@@ -560,8 +623,29 @@ function levelstart(){
 	v2 = (Math.floor(Math.random() * 8) + 4) * 2 ;
 	h3 = (Math.floor(Math.random() * 8) + 4) * 2 ;
 	v3 = (Math.floor(Math.random() * 8) + 4) * 2 ;
+	a1 = (Math.floor(Math.random() * 8) + 4) * 2 ;
 	hy.push(Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2), Math.floor(Math.random() * 10 + 2))
 	vx.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
+	ax.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
+	
+	while(ax[1] == vx[1] | ax[1] == vx[2] |ax[1] == vx[3]){
+	ax = ["e"]
+	console.log("a");
+	ax.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
+	}
+
+	while(ax[2] == vx[1] | ax[2] == vx[2] |ax[2] == vx[3]){
+	ax = ["e"]
+	console.log("a");
+	ax.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
+	}
+	
+	while(ax[3] == vx[1] | ax[3] == vx[2] |ax[3] == vx[3]){
+	ax = ["e"]
+	console.log("a");
+	ax.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
+	}
+	
 	level = level + 1;
 	slow++
 	if(slow > 7){slow = 7;}
@@ -605,6 +689,7 @@ function gameend(){
 	speed = 500;
 	hy = ["e"];
 	vx = ["e"];
+	ax = ["e"];
 	startintro = true;
 	levelstart();
 	level = 1;
