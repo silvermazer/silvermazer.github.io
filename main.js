@@ -5,7 +5,12 @@ cnv.height = window.innerHeight;
 
 var frequency = 100;
 var frequencyold;
+if(typeof(webkitAudioContext) !== "undefined"){
+var context = new webkitAudioContext();
+}
+else{
 var context = new AudioContext();
+}
 var o = context.createOscillator();
 var g = context.createGain();
 var gameover = false;
@@ -499,7 +504,6 @@ function loop(){
 }
 	}
 	
-	
 	//sound
 	if(frequencyold !== frequency){
 	frequencyold = frequency;
@@ -510,12 +514,17 @@ function loop(){
 	
 	o = context.createOscillator();
 	g = context.createGain();
-	o.type = "triangle";
+	o.type = "sine";
 	o.connect(g);
 	g.connect(context.destination);
 	o.start();
 	o.frequency.value = frequency;
-	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.5)
+	if(typeof(webkitAudioContext) !== "undefined"){
+	setTimeout(lowergain, 5 );
+	}
+	else{
+	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.2);
+	}
 	o.stop(context.currentTime + 1);
 	
 	//white lines
@@ -604,7 +613,9 @@ function loop(){
  
 }
 }
-
+function lowergain(){
+	if(g.gain.value > 0){g.gain.value = g.gain.value - 0.1; setTimeout(lowergain, 5);}
+}
 
 function levelstart(){
 	if(warping == true){
