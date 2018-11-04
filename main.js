@@ -530,21 +530,30 @@ function loop(){
 	//white lines
 	
 	if(level > 4){
-	{//a1
+		{//a1
 	var fx = 461 + ax[1] * 20;
 	var fy = 301 - (a1 * 20) / 2;;
 	for (i = 0; i < a1; i++){
 	ctx.fillStyle = "White"
 	ctx.fillRect(fx, fy, 18, 18);
 	if(px == fx && py == fy){
-	if(dir == 1){px = px + 20;}
-	if(dir == 2){py = py + 20;}
-	if(dir == 3){px = px - 20;}
-	if(dir == 4){py = py - 20;}
+	if(dir == 1){px = px + 20; dir = 0;}
+	if(dir == 2){py = py + 20; dir = 0;}
+	if(dir == 3){px = px - 20; dir = 0;}
+	if(dir == 4){py = py - 20; dir = 0;}
 	}
 	if(mx == fx && my == fy){
 	if(px > mx)	{mx = mx - 20;}
-	if(px < mx)	{mx = mx + 20;}
+	else if(px < mx){mx = mx + 20;}
+	
+	else if (px == mx){
+	if(dir == 1){mx = mx + 20; if()}
+	else if(dir == 3){mx = mx - 20;}
+	
+
+	}
+
+
 	}
 	
 	fy = fy + 20;
@@ -557,14 +566,25 @@ function loop(){
 	ctx.fillStyle = "White"
 	ctx.fillRect(fx, fy, 18, 18);
 	if(px == fx && py == fy){
-	if(dir == 1){px = px + 20;}
-	if(dir == 2){py = py + 20;}
-	if(dir == 3){px = px - 20;}
-	if(dir == 4){py = py - 20;}
+	if(dir == 1){px = px + 20; dir = 0;}
+	if(dir == 2){py = py + 20; dir = 0;}
+	if(dir == 3){px = px - 20; dir = 0;}
+	if(dir == 4){py = py - 20; dir = 0;}
 	}
 	if(mx == fx && my == fy){
 	if(px > mx)	{mx = mx - 20;}
-	if(px < mx)	{mx = mx + 20;}
+	else if(px < mx){mx = mx + 20;}
+	
+	else if (px == mx){
+	if(dir == 1){
+	mx = mx + 20;
+	
+	}
+	else if(dir == 3){mx = mx - 20;}
+	
+	
+	}
+
 	}
 	fy = fy + 20;
 }		
@@ -675,6 +695,8 @@ function levelstart(){
 	warping = false;
 	intro = 0;
 }
+
+
 
 function levelcycle(){
 	h1 = (Math.floor(Math.random() * 8) + 4) * 2 ;
@@ -803,10 +825,10 @@ function write(string, color, x, y){
 	if(string[v] == "2"){w1.push(0, 1, 1, 1); w2.push(0, 0, 0, 1); w3.push(0, 0, 1, 0); w4.push(0, 1, 0, 0); w5.push(0, 1, 1, 1);}
 	if(string[v] == "3"){w1.push(0, 1, 1, 1); w2.push(0, 0, 0, 1); w3.push(0, 0, 1, 1); w4.push(0, 0, 0, 1); w5.push(0, 1, 1, 1);}
 	if(string[v] == "4"){w1.push(0, 1, 0, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 0, 0, 1); w5.push(0, 0, 0, 1);}
-	if(string[v] == "5"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 0, 1, 0); w4.push(0, 0, 0, 1); w5.push(0, 1, 1, 1);}
+	if(string[v] == "5"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 1, 0); w4.push(0, 0, 0, 1); w5.push(0, 1, 1, 1);}
 	if(string[v] == "6"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
 	if(string[v] == "7"){w1.push(0, 1, 1, 1); w2.push(0, 0, 0, 1); w3.push(0, 0, 0, 1); w4.push(0, 0, 1, 0); w5.push(0, 0, 1, 0);}
-	if(string[v] == "8"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 0, 1, 0); w5.push(0, 1, 1, 1);}
+	if(string[v] == "8"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
 	if(string[v] == "9"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 0, 0, 1); w5.push(0, 0, 0, 1);}
 	if(string[v] == "0"){w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 0, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1);}
 	if(string[v] == " "){w1.push(0, 0, 0, 0); w2.push(0, 0, 0, 0); w3.push(0, 0, 0, 0); w4.push(0, 0, 0, 0); w5.push(0, 0, 0, 0);}
