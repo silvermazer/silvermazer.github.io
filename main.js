@@ -5,6 +5,14 @@ cnv.height = window.innerHeight;
 
 var frequency = 100;
 var frequencyold;
+if(typeof(webkitAudioContext) !== "undefined"){
+var context = new webkitAudioContext();
+}
+else{
+var context = new AudioContext();
+}
+var o = context.createOscillator();
+var g = context.createGain();
 var gameover = false;
 var lives = 3;
 var speed = 600;
@@ -497,25 +505,27 @@ function loop(){
 	}
 	
 	//sound
-		if(frequencyold !== frequency){
+	if(frequencyold !== frequency){
 	frequencyold = frequency;
 	}
 	else if(frequencyold == frequency){
 	frequency = 100;
 	}
-	var synth = new Tone.Synth({
-	oscillator : {
-    modulationType : 'sine',
-  },
-  envelope : {
-  	attack : 0.001,
-    decay : 0.1,
-    sustain: 0.1,
-    release: 0.1
-  }
-}).toMaster();
-	synth.triggerAttackRelease(frequency, 0.01);
 	
+	o = context.createOscillator();
+	g = context.createGain();
+	o.type = "sine";
+	o.connect(g);
+	g.connect(context.destination);
+	o.start();
+	o.frequency.value = frequency;
+	if(typeof(webkitAudioContext) !== "undefined"){
+	setTimeout(lowergain, 5 );
+	}
+	else{
+	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.2);
+	}
+	o.stop(context.currentTime + 1);
 	
 	//white lines
 	
@@ -527,23 +537,14 @@ function loop(){
 	ctx.fillStyle = "White"
 	ctx.fillRect(fx, fy, 18, 18);
 	if(px == fx && py == fy){
-	if(dir == 1){px = px + 20; dir = 0;}
-	if(dir == 2){py = py + 20; dir = 0;}
-	if(dir == 3){px = px - 20; dir = 0;}
-	if(dir == 4){py = py - 20; dir = 0;}
+	if(dir == 1){px = px + 20;}
+	if(dir == 2){py = py + 20;}
+	if(dir == 3){px = px - 20;}
+	if(dir == 4){py = py - 20;}
 	}
 	if(mx == fx && my == fy){
 	if(px > mx)	{mx = mx - 20;}
-	else if(px < mx){mx = mx + 20;}
-	
-	else if (px == mx){
-	if(dir == 1){mx = mx + 20;}
-	else if(dir == 3){mx = mx - 20;}
-	if(py > my){my = my - 20;}
-	else if(py < my){my = my + 20;}
-	}
-	
-
+	if(px < mx)	{mx = mx + 20;}
 	}
 	
 	fy = fy + 20;
@@ -556,21 +557,14 @@ function loop(){
 	ctx.fillStyle = "White"
 	ctx.fillRect(fx, fy, 18, 18);
 	if(px == fx && py == fy){
-	if(dir == 1){px = px + 20; dir = 0;}
-	if(dir == 2){py = py + 20; dir = 0;}
-	if(dir == 3){px = px - 20; dir = 0;}
-	if(dir == 4){py = py - 20; dir = 0;}
+	if(dir == 1){px = px + 20;}
+	if(dir == 2){py = py + 20;}
+	if(dir == 3){px = px - 20;}
+	if(dir == 4){py = py - 20;}
 	}
 	if(mx == fx && my == fy){
 	if(px > mx)	{mx = mx - 20;}
-	else if(px < mx){mx = mx + 20;}
-	
-	else if (px == mx){
-	if(dir == 1){mx = mx + 20;}
-	else if(dir == 3){mx = mx - 20;}
-	if(py > my){my = my - 20;}
-	else if(py < my){my = my + 20;}
-	}
+	if(px < mx)	{mx = mx + 20;}
 	}
 	fy = fy + 20;
 }		
@@ -619,7 +613,9 @@ function loop(){
  
 }
 }
-
+function lowergain(){
+	if(g.gain.value > 0){g.gain.value = g.gain.value - 0.1; setTimeout(lowergain, 5);}
+}
 
 function levelstart(){
 	if(warping == true){
