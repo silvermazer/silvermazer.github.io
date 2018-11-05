@@ -5,14 +5,6 @@ cnv.height = window.innerHeight;
 
 var frequency = 100;
 var frequencyold;
-if(typeof(AudioContext) !== "undefined"){
-var context = new AudioContext();
-}
-else{
-var context = new webkitAudioContext();
-}
-var o = context.createOscillator();
-var g = context.createGain();
 var gameover = false;
 var lives = 3;
 var speed = 600;
@@ -50,7 +42,9 @@ document.addEventListener("keydown", function (event){
 if(start == false){
 start = true;
 levelstart();
-context.resume();
+    if (Tone.context.state !== 'running') {
+        Tone.context.resume();
+    }
 }	
 	
 });
@@ -59,7 +53,9 @@ document.addEventListener("touchstart", function (event){
 if(start == false){
 start = true;
 levelstart();
-context.resume();
+    if (Tone.context.state !== 'running') {
+        Tone.context.resume();
+    }
 }	
 	
 });
@@ -537,22 +533,25 @@ function loop(){
 	else if(frequencyold == frequency){
 	frequency = 100;
 	}
+
+var synth = new Tone.Synth({
+	oscillator : {
+    modulationType : 'sine',
+  },
+  envelope : {
+  	attack : 0.001,
+    decay : 0.1,
+    sustain: 0.1,
+    release: 0.1
+  }
+}).toMaster()
+
+
+synth.triggerAttackRelease(frequency, 0.01)
+
 	
-	o = context.createOscillator();
-	g = context.createGain();
-	o.type = "sine";
-	o.connect(g);
-	g.connect(context.destination);
-	o.start();
-	o.frequency.value = frequency;
-	if(typeof(AudioContext) !== "undefined"){
-	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.2);
-	}
-	else{
-	setTimeout(lowergain, 5 );
-	}
-	o.stop(context.currentTime + 1);
 	
+
 	//white lines
 	
 	if(level > 4){
@@ -661,9 +660,6 @@ function loop(){
 }
 }
 
-function lowergain(){
-	if(g.gain.value > 0){g.gain.value = g.gain.value - 0.1; setTimeout(lowergain, 5);}
-}
 
 function levelstart(){
 	if(warping == true){
@@ -689,19 +685,19 @@ function levelstart(){
 	
 	while(ax[1] == vx[1] | ax[1] == vx[2] |ax[1] == vx[3]){
 	ax = ["e"]
-	console.log("a");
+	
 	ax.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
 	}
 
 	while(ax[2] == vx[1] | ax[2] == vx[2] |ax[2] == vx[3]){
 	ax = ["e"]
-	console.log("a");
+	
 	ax.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
 	}
 	
 	while(ax[3] == vx[1] | ax[3] == vx[2] |ax[3] == vx[3]){
 	ax = ["e"]
-	console.log("a");
+	
 	ax.push(Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2), Math.floor(Math.random() * 12 + 2))
 	}
 	
