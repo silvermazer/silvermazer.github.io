@@ -8,9 +8,6 @@ var frequencyold;
 if(typeof(AudioContext) !== "undefined"){
 var context = new AudioContext();
 }
-else{
-var context = new webkitAudioContext();
-}
 var o = context.createOscillator();
 var g = context.createGain();
 var gameover = false;
@@ -548,9 +545,6 @@ function loop(){
 	if(typeof(AudioContext) !== "undefined"){
 	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.2);
 	}
-	else{
-	setTimeout(lowergain, 5 );
-	}
 	o.stop(context.currentTime + 1);
 	
 	//white lines
@@ -659,10 +653,6 @@ function loop(){
  
 }
 }
-}
-
-function lowergain(){
-	if(g.gain.value > 0){g.gain.value = g.gain.value - 0.1; setTimeout(lowergain, 5);}
 }
 
 function levelstart(){
