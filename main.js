@@ -539,7 +539,7 @@ var synth = new Tone.Synth({
     modulationType : 'sine',
   },
   envelope : {
-  	attack : 0.001,
+  	attack : 0.1,
     decay : 0.1,
     sustain: 0.1,
     release: 0.1
