@@ -91,8 +91,8 @@ function loop(){
 	
 	if(start == false){
 	write(["e", "a", "t"], "white", 321, 121);
-	write(["p", "r", "e", "s", "s"], "white", 241, 241);
-	write(["t", "o", " ", "p", "l", "a", "y"], "white", 161, 361);
+	write(["p", "r", "e", "s", "s"], "yellow", 241, 241);
+	write(["t", "o", " ", "p", "l", "a", "y"], "red", 161, 361);
 	}
 	
 	else{
