@@ -42,11 +42,28 @@ var warping = false;
 var startintro = true;
 var levelintro = true;
 var intro = 0;
-
+var start = false;
 var interval = setInterval(loop, speed);
 
 
+document.addEventListener("keydown", function (event){
+if(start == false){
+start = true;
 levelstart();
+context.resume();
+}	
+	
+});
+
+document.addEventListener("touchstart", function (event){
+if(start == false){
+start = true;
+levelstart();
+context.resume();
+}	
+	
+});
+
 
 
 document.addEventListener("keydown", keydownhandler);
@@ -74,6 +91,15 @@ function keydownhandler(){
 
 
 function loop(){
+	
+	
+	if(start == false){
+	write(["e", "a", "t"], "white", 321, 121);
+	write(["p", "r", "e", "s", "s"], "white", 241, 241);
+	write(["t", "o", " ", "p", "l", "a", "y"], "white", 161, 361);
+	}
+	
+	else{
 	
 	
 	if(intro < 10 * (500 / speed)){
@@ -633,6 +659,8 @@ function loop(){
  
 }
 }
+}
+
 function lowergain(){
 	if(g.gain.value > 0){g.gain.value = g.gain.value - 0.1; setTimeout(lowergain, 5);}
 }
@@ -697,12 +725,6 @@ function levelstart(){
 }
 
 
-
-function levelcycle(){
-	h1 = (Math.floor(Math.random() * 8) + 4) * 2 ;
-	v1 = (Math.floor(Math.random() * 8) + 4) * 2 ;
-	left = h1 * 2 + v1 * 2;
-}
 
 
 function newlife(){
