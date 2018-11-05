@@ -547,7 +547,7 @@ function loop(){
 	else if(px < mx){mx = mx + 20;}
 	
 	else if (px == mx){
-	if(dir == 1){mx = mx + 20; if()}
+	if(dir == 1){mx = mx + 20;}
 	else if(dir == 3){mx = mx - 20;}
 	
 
