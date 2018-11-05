@@ -5,11 +5,11 @@ cnv.height = window.innerHeight;
 
 var frequency = 100;
 var frequencyold;
-if(typeof(webkitAudioContext) !== "undefined"){
-var context = new webkitAudioContext();
+if(typeof(AudioContext) !== "undefined"){
+var context = new AudioContext();
 }
 else{
-var context = new AudioContext();
+var context = new webkitAudioContext();
 }
 var o = context.createOscillator();
 var g = context.createGain();
@@ -545,11 +545,11 @@ function loop(){
 	g.connect(context.destination);
 	o.start();
 	o.frequency.value = frequency;
-	if(typeof(webkitAudioContext) !== "undefined"){
-	setTimeout(lowergain, 5 );
+	if(typeof(AudioContext) !== "undefined"){
+	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.2);
 	}
 	else{
-	g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.2);
+	setTimeout(lowergain, 5 );
 	}
 	o.stop(context.currentTime + 1);
 	
