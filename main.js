@@ -557,10 +557,12 @@ synth.triggerAttackRelease(frequency, 0.01)
 	if(level > 4){
 		{//a1
 	var fx = 461 + ax[1] * 20;
-	var fy = 301 - (a1 * 20) / 2;;
+	var fy = 301 - (a1 * 20) / 2;
 	for (i = 0; i < a1; i++){
+	if(fy > 321 | fy < 261){
 	ctx.fillStyle = "White"
 	ctx.fillRect(fx, fy, 18, 18);
+	
 	if(px == fx && py == fy){
 	if(dir == 1){px = px + 20; dir = 0;}
 	if(dir == 2){py = py + 20; dir = 0;}
@@ -575,10 +577,9 @@ synth.triggerAttackRelease(frequency, 0.01)
 	if(dir == 1){mx = mx + 20;}
 	else if(dir == 3){mx = mx - 20;}
 	
-
 	}
 
-
+	}
 	}
 	
 	fy = fy + 20;
@@ -588,6 +589,9 @@ synth.triggerAttackRelease(frequency, 0.01)
 	var fx = 441 - ax[1] * 20;
 	var fy = 301 - (a1 * 20) / 2;
 	for (i = 0; i < a1; i++){
+	if(fy > 321 | fy < 261){
+	ctx.fillStyle = "White"
+	ctx.fillRect(fx, fy, 18, 18);
 	ctx.fillStyle = "White"
 	ctx.fillRect(fx, fy, 18, 18);
 	if(px == fx && py == fy){
@@ -609,7 +613,7 @@ synth.triggerAttackRelease(frequency, 0.01)
 	
 	
 	}
-
+	}
 	}
 	fy = fy + 20;
 }		
