@@ -228,7 +228,7 @@ function loop() {
 			var by = 1;
 
 
-			while (b != 149) {
+			while (b != 170) {
 
 				ctx.fillRect(bx, by, 18, 18);
 				ctx.fillStyle = "gray";
@@ -248,7 +248,7 @@ function loop() {
 					if (b == 36 && level > 3) { ctx.fillStyle = "orange"; }
 					if (b == 38 && level > 4) { ctx.fillStyle = "red"; }
 					if (b == 40 && level > 5) { ctx.fillStyle = "violet"; }
-					if (b == 42 && level > 6) { ctx.fillStyle = "pink"; }
+					if (b == 42 && level > 6) { ctx.fillStyle = "Indigo"; }
 					if (b == 44 && level > 7) { ctx.fillStyle = "orangered"; }
 					if (b == 46 && level > 8) { ctx.fillStyle = "aqua"; }
 					if (b == 48 && level > 9) { ctx.fillStyle = "DarkKhaki"; }
@@ -281,16 +281,44 @@ function loop() {
 					if (b == 145 && lives == 2) { ctx.fillStyle = "yellow"; }
 					if (b == 147 && lives == 1) { ctx.fillStyle = "red"; }
 				}
+				
+				else if(b == 149){
+				bx = 621;
+				by = 21;
+				}
+				
+				else if(b < 157){
+				by = by + 20;
+				}
+				else if(b < 170){
+				bx = bx + 20;
+				}
+				
 			}
+			
+
 
 			// wall teleporting
-			if (py > 561) { py = 21; warp = false; }
-			if (py < 21) { py = 561; warp = false; }
-			if (px < 21) { px = 881; warp = false; }
-			if (px > 881) { px = 21; warp = false; }
+				
+				if(dir == 2 || dir == 4){
+					if (py > 561 && px < 621) { py = 21; warp = false; }
+					if (py > 561 && px > 601) { py = 181; warp = false; } 
+				
 
+					if (py < 21 && px < 621) { py = 561; warp = false; }
+					if (py < 181 && px > 601) { py = 561; warp = false; }
+				}
+				
+				if(dir == 3 || dir == 1){
+			
+					if (px < 21 && py > 161) { px = 881; warp = false; }
+					if (px < 21 && py < 181) { px = 601; warp = false; }
+				
+					if (px > 881 && py > 161) { px = 21; warp = false; }
+					if (px > 601 && py < 181) { px = 21; warp = false; }
+				}
 
-
+			
 			// monster
 			if (finish == false) {
 				if (Math.floor(Math.random() * slow) !== 0) {
@@ -300,6 +328,9 @@ function loop() {
 					if (py < my) { my = my - 20; }
 
 				}
+				
+				if(mx > 601 && my < 161) { mx = 601; }
+				if(my < 181 && mx > 601 ) { my = 181; }
 			}
 
 
@@ -321,6 +352,7 @@ function loop() {
 						}
 						if (441 - ax[1] * 20 == fx && level > 4) { food.push("h1" + fx); left -= 1; }
 						if (461 + ax[1] * 20 == fx && level > 4) { food.push("h1" + fx); left -= 1; }
+						if (fx > 601 && fy < 181) { food.push("h1" + fx); left -= 1; }
 					}
 					fx = fx + 20;
 				}
@@ -359,6 +391,7 @@ function loop() {
 						}
 						if (281 - ax[2] * 20 == fy && level > 5) { food.push("v1" + fy); left -= 1; }
 						if (301 + ax[2] * 20 == fy && level > 5) { food.push("v1" + fy); left -= 1; }
+						if (fy < 181 && fx > 601) { food.push("v1" + fy); left -= 1; }
 
 					}
 					fy = fy + 20;
@@ -401,6 +434,7 @@ function loop() {
 							}
 							if (441 - ax[1] * 20 == fx && level > 4) { food.push("h3" + fx); left -= 1; }
 							if (461 + ax[1] * 20 == fx && level > 4) { food.push("h3" + fx); left -= 1; }
+							if (fx > 601 && fy < 181) { food.push("h3" + fx); left -= 1; }
 						}
 						fx = fx + 20;
 					}
@@ -440,6 +474,7 @@ function loop() {
 
 							if (281 - ax[2] * 20 == fy && level > 5) { food.push("v3" + fy); left -= 1; }
 							if (301 + ax[2] * 20 == fy && level > 5) { food.push("v3" + fy); left -= 1; }
+							if (fy < 181 && fx > 601) { food.push("v3" + fy); left -= 1; }
 						}
 						fy = fy + 20;
 					}
@@ -483,6 +518,7 @@ function loop() {
 							}
 							if (441 - ax[1] * 20 == fx && level > 4) { food.push("h5" + fx); left -= 1; }
 							if (461 + ax[1] * 20 == fx && level > 4) { food.push("h5" + fx); left -= 1; }
+							if (fx > 601 && fy < 181) { food.push("h5" + fx); left -= 1; }
 						}
 						fx = fx + 20;
 					}
@@ -521,6 +557,7 @@ function loop() {
 							}
 							if (281 - ax[2] * 20 == fy && level > 5) { food.push("v5" + fy); left -= 1; }
 							if (301 + ax[2] * 20 == fy && level > 5) { food.push("v5" + fy); left -= 1; }
+							if (fy < 181 && fx > 601) { food.push("v5" + fy); left -= 1; }
 						}
 						fy = fy + 20;
 					}
@@ -580,10 +617,12 @@ function loop() {
 					var fx = 461 + ax[1] * 20;
 					var fy = 301 - (a1 * 20) / 2;
 					for (i = 0; i < a1; i++) {
+						
 						if (fy > 321 | fy < 261) {
 							ctx.fillStyle = "White"
 							ctx.fillRect(fx, fy, 18, 18);
-
+							if (!food.includes("a1" + fy, 0)) {
+							if (fy < 181 && fx > 601) { food.push("a1" + fy);}
 							if (px == fx && py == fy) {
 								if (dir == 1) { px = px + 20; dir = 0; }
 								if (dir == 2) { py = py + 20; dir = 0; }
@@ -602,7 +641,7 @@ function loop() {
 
 							}
 						}
-
+						}
 						fy = fy + 20;
 					}
 
@@ -647,6 +686,8 @@ function loop() {
 					var fy = 281 - ax[2] * 20;
 					for (i = 0; i < a2; i++) {
 						if (fx > 481 | fx < 421) {
+							if (!food.includes("a2" + fy, 0)) {
+							if (fx > 601 && fy < 181) { food.push("a2" + fx);}
 							ctx.fillStyle = "white"
 							ctx.fillRect(fx, fy, 18, 18);
 							if (fx == px && fy == py) {
@@ -666,6 +707,7 @@ function loop() {
 
 								}
 
+							}
 							}
 						}
 
@@ -704,6 +746,30 @@ function loop() {
 
 
 			}
+			
+			// score drawing
+			
+			var hun = 0;
+			var ten = 0;
+			var one = 0;
+			var score = left;
+			
+			while(score != 0){
+				score--
+			
+				one++
+				if(one > 9){
+					one = 0;
+					ten++
+					if(ten > 9){
+						ten = 0;
+						hun++
+					}
+				}
+			
+			}
+			
+			write([hun.toString(), ten.toString(), one.toString()], "white", 641, 41);
 
 			//draw player/monster
 			if (dead == false) {
@@ -739,7 +805,7 @@ function loop() {
 					px = 21;
 					py = 561;
 					mx = 881;
-					my = 21;
+					my = 181;
 				}
 			}
 
@@ -758,7 +824,7 @@ function levelstart() {
 	px = 21;
 	py = 561;
 	mx = 881;
-	my = 21;
+	my = 181;
 	h1 = (Math.floor(Math.random() * 8) + 4) * 2;
 	v1 = (Math.floor(Math.random() * 8) + 4) * 2;
 	h2 = (Math.floor(Math.random() * 8) + 4) * 2;
@@ -812,7 +878,7 @@ function newlife() {
 		px = 21;
 		py = 561;
 		mx = 881;
-		my = 21;
+		my = 181;
 		dir = 0;
 		lives--;
 		dead = false;
