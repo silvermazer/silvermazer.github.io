@@ -75,16 +75,17 @@ ctx.scale(window.innerWidth / 46 / 20, window.innerHeight / 30 / 20)
 
 function keydownhandler() {
 	// set movement dir
-	if (event.code == "ArrowRight") {
+
+	if (event.code == "ArrowRight" || event.code == "KeyD" ) {
 		dir = 3;
 	}
-	if (event.code == "ArrowLeft") {
+	if (event.code == "ArrowLeft" || event.code == "KeyA" ) {
 		dir = 1;
 	}
-	if (event.code == "ArrowUp") {
+	if (event.code == "ArrowUp" || event.code == "KeyW" ) {
 		dir = 2;
 	}
-	if (event.code == "ArrowDown") {
+	if (event.code == "ArrowDown" || event.code == "KeyS" ) {
 		dir = 4;
 
 	}
@@ -584,30 +585,30 @@ function loop() {
 				}
 			}
 
-			//sound
-			if (frequencyold !== frequency) {
-				frequencyold = frequency;
-			}
-			else if (frequencyold == frequency) {
-				frequency = 100;
-			}
-
-			var synth = new Tone.Synth({
-				oscillator: {
-					modulationType: 'sine',
-				},
-				envelope: {
-					attack: 0.001,
-					decay: 0.1,
-					sustain: 0.1,
-					release: 0.1
+			{//sound
+				if (frequencyold !== frequency) {
+					frequencyold = frequency;
 				}
-			}).toMaster()
+				else if (frequencyold == frequency) {
+					frequency = 100;
+				}
+
+				var synth = new Tone.Synth({
+					oscillator: {
+						modulationType: 'sine',
+					},
+					envelope: {
+						attack: 0.001,
+						decay: 0.1,
+						sustain: 0.1,
+						release: 0.1
+					}
+				}).toMaster()
 
 
-			synth.triggerAttackRelease(frequency, 0.01)
+				synth.triggerAttackRelease(frequency, 0.01)
 
-
+			}
 
 
 			//white lines
@@ -619,9 +620,9 @@ function loop() {
 					for (i = 0; i < a1; i++) {
 						
 						if (fy > 321 | fy < 261) {
+							if (!food.includes("a1" + fy, 0)) {
 							ctx.fillStyle = "White"
 							ctx.fillRect(fx, fy, 18, 18);
-							if (!food.includes("a1" + fy, 0)) {
 							if (fy < 181 && fx > 601) { food.push("a1" + fy);}
 							if (px == fx && py == fy) {
 								if (dir == 1) { px = px + 20; dir = 0; }
@@ -806,6 +807,7 @@ function loop() {
 					py = 561;
 					mx = 881;
 					my = 181;
+					warp = false;
 				}
 			}
 
@@ -902,7 +904,7 @@ function gameend() {
 	else if (level > 3) { left = h1 * 2 + v1 * 2 + h2 * 2 + v2 * 2 + h3 * 2 + v3 * 2; }
 	else { left = h1 * 2 + v1 * 2 + h2 * 2 + v2 * 2; }
 	warp = true;
-
+	
 }
 
 
