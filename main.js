@@ -11,18 +11,8 @@ var speed = 600;
 var level = 0;
 var slow = 1;
 var left;
-var hy = ["e"];
-var vx = ["e"];
-var ax = ["e"];
-var h1;
-var h2;
-var h3;
-var v1;
-var v2;
-var v3;
-var a1;
-var a2;
 var food = ["e"];
+var mdir = 5;
 var mx = 781;
 var my = 1;
 var px = 21;
@@ -39,10 +29,14 @@ var start = false;
 var interval = setInterval(loop, speed);
 
 window.onresize = function (event) {
-	cnv.width = window.innerWidth;
-	cnv.height = window.innerHeight;
-	ctx.scale(window.innerWidth / 46 / 20, window.innerHeight / 30 / 20)
+	setTimeout(function resize () {
+		cnv.width = window.innerWidth;
+		cnv.height = window.innerHeight;
+		ctx.scale(window.innerWidth / 46 / 20, window.innerHeight / 30 / 20)
+	}, 100)
 }
+
+
 
 document.addEventListener("keydown", function (event) {
 	if (start == false) {
@@ -290,9 +284,12 @@ function loop() {
 				
 				else if(b < 157){
 				by = by + 20;
+
+				
 				}
 				else if(b < 170){
 				bx = bx + 20;
+
 				}
 				
 			}
@@ -323,267 +320,32 @@ function loop() {
 			// monster
 			if (finish == false) {
 				if (Math.floor(Math.random() * slow) !== 0) {
-					if (px > mx) { mx = mx + 20; }
-					if (px < mx) { mx = mx - 20; }
-					if (py > my) { my = my + 20; }
-					if (py < my) { my = my - 20; }
 
+					if (px > mx && py < my){mdir = 2;}
+					else if (px < mx && py < my){mdir = 8;}
+					else if (px < mx && py > my){mdir = 6;}				
+					else if (px > mx && py > my){mdir = 4;}
+					else if (px > mx) { mdir = 3; }
+					else if (px < mx) { mdir = 7; }
+					else if (py > my) { mdir = 5; }
+					else if (py < my) { mdir = 1; }
+					
+					
+					if(mdir == 1){my-=20;}
+					else if(mdir == 2){mx+=20; my-=20;}
+					else if(mdir == 3){mx+=20;}
+					else if(mdir == 4){mx+=20; my+=20;}
+					else if(mdir == 5){my+=20;}
+					else if(mdir == 6){my+=20; mx-=20;}
+					else if(mdir == 7){mx-=20;}
+					else if(mdir == 8){mx-=20; my-=20;}
 				}
 				
-				if(mx > 601 && my < 161) { mx = 601; }
-				if(my < 181 && mx > 601 ) { my = 181; }
+				if(mx > 601 && my < 16) { mx = 601; }
+				if(my < 181 && mx > 621 ) { my = 181; }
 			}
 
-
-
-
-			// food
-			{//h1
-				var fx = 461 - (h1 * 20) / 2;
-				var fy = 281 - hy[3] * 20;
-				for (i = 0; i < h1; i++) {
-					if (!food.includes("h1" + fx, 0)) {
-						ctx.fillStyle = "blue"
-						ctx.fillRect(fx, fy, 18, 18);
-						if (fx == px && fy == py) {
-							food.push("h1" + fx);
-							left -= 1;
-							if (frequency == 100) { frequency = 800; }
-							else if (frequencyold == frequency) { frequency = frequency - 25; }
-						}
-						if (441 - ax[1] * 20 == fx && level > 4) { food.push("h1" + fx); left -= 1; }
-						if (461 + ax[1] * 20 == fx && level > 4) { food.push("h1" + fx); left -= 1; }
-						if (fx > 601 && fy < 181) { food.push("h1" + fx); left -= 1; }
-					}
-					fx = fx + 20;
-				}
-
-				var fx = 461 - (h1 * 20) / 2;
-				var fy = 301 + hy[3] * 20;
-				for (i = 0; i < h1; i++) {
-					if (!food.includes("h2" + fx, 0)) {
-						ctx.fillStyle = "blue"
-						ctx.fillRect(fx, fy, 18, 18);
-						if (fx == px && fy == py) {
-							food.push("h2" + fx);
-							left -= 1;
-							if (frequency == 100) { frequency = 800; }
-							else if (frequencyold == frequency) { frequency = frequency - 25; }
-						}
-						if (441 - ax[1] * 20 == fx && level > 4) { food.push("h2" + fx); left -= 1; }
-						if (461 + ax[1] * 20 == fx && level > 4) { food.push("h2" + fx); left -= 1; }
-					}
-					fx = fx + 20;
-				}
-			}
-
-			{//v1
-				var fx = 461 + vx[3] * 20;
-				var fy = 301 - (v1 * 20) / 2;;
-				for (i = 0; i < v1; i++) {
-					if (!food.includes("v1" + fy, 0)) {
-						ctx.fillStyle = "DarkCyan"
-						ctx.fillRect(fx, fy, 18, 18);
-						if (fx == px && fy == py) {
-							food.push("v1" + fy);
-							left -= 1;
-							if (frequency == 100) { frequency = 800; }
-							else if (frequencyold == frequency) { frequency = frequency - 25; }
-						}
-						if (281 - ax[2] * 20 == fy && level > 5) { food.push("v1" + fy); left -= 1; }
-						if (301 + ax[2] * 20 == fy && level > 5) { food.push("v1" + fy); left -= 1; }
-						if (fy < 181 && fx > 601) { food.push("v1" + fy); left -= 1; }
-
-					}
-					fy = fy + 20;
-				}
-
-				var fx = 441 - vx[3] * 20;
-				var fy = 301 - (v1 * 20) / 2;
-				for (i = 0; i < v1; i++) {
-					if (!food.includes("v2" + fy, 0)) {
-						ctx.fillStyle = "DarkCyan"
-						ctx.fillRect(fx, fy, 18, 18);
-						if (fx == px && fy == py) {
-							food.push("v2" + fy);
-							left -= 1;
-							if (frequency == 100) { frequency = 800; }
-							else if (frequencyold == frequency) { frequency = frequency - 25; }
-						}
-						if (281 - ax[2] * 20 == fy && level > 5) { food.push("v2" + fy); left -= 1; }
-						if (301 + ax[2] * 20 == fy && level > 5) { food.push("v2" + fy); left -= 1; }
-
-					}
-					fy = fy + 20;
-				}
-			}
-
-			if (level > 1) {
-
-				{//h2
-					var fx = 461 - (h2 * 20) / 2;
-					var fy = 281 - hy[2] * 20;
-					for (i = 0; i < h2; i++) {
-						if (!food.includes("h3" + fx, 0)) {
-							ctx.fillStyle = "blue"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								food.push("h3" + fx);
-								left -= 1;
-								if (frequency == 100) { frequency = 800; }
-								else if (frequencyold == frequency) { frequency = frequency - 25; }
-							}
-							if (441 - ax[1] * 20 == fx && level > 4) { food.push("h3" + fx); left -= 1; }
-							if (461 + ax[1] * 20 == fx && level > 4) { food.push("h3" + fx); left -= 1; }
-							if (fx > 601 && fy < 181) { food.push("h3" + fx); left -= 1; }
-						}
-						fx = fx + 20;
-					}
-
-					var fx = 461 - (h2 * 20) / 2;
-					var fy = 301 + hy[2] * 20;
-					for (i = 0; i < h2; i++) {
-						if (!food.includes("h4" + fx, 0)) {
-							ctx.fillStyle = "blue"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								food.push("h4" + fx);
-								left -= 1;
-								if (frequency == 100) { frequency = 800; }
-								else if (frequencyold == frequency) { frequency = frequency - 25; }
-							}
-							if (441 - ax[1] * 20 == fx && level > 4) { food.push("h4" + fx); left -= 1; }
-							if (461 + ax[1] * 20 == fx && level > 4) { food.push("h4" + fx); left -= 1; }
-						}
-						fx = fx + 20;
-					}
-				}
-
-				{//v2
-					var fx = 461 + vx[2] * 20;
-					var fy = 301 - (v2 * 20) / 2;;
-					for (i = 0; i < v2; i++) {
-						if (!food.includes("v3" + fy, 0)) {
-							ctx.fillStyle = "DarkCyan"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								food.push("v3" + fy);
-								left -= 1;
-								if (frequency == 100) { frequency = 800; }
-								else if (frequencyold == frequency) { frequency = frequency - 25; }
-							}
-
-							if (281 - ax[2] * 20 == fy && level > 5) { food.push("v3" + fy); left -= 1; }
-							if (301 + ax[2] * 20 == fy && level > 5) { food.push("v3" + fy); left -= 1; }
-							if (fy < 181 && fx > 601) { food.push("v3" + fy); left -= 1; }
-						}
-						fy = fy + 20;
-					}
-
-					var fx = 441 - vx[2] * 20;
-					var fy = 301 - (v2 * 20) / 2;
-					for (i = 0; i < v2; i++) {
-						if (!food.includes("v4" + fy, 0)) {
-							ctx.fillStyle = "DarkCyan"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								food.push("v4" + fy);
-								left -= 1;
-								if (frequency == 100) { frequency = 800; }
-								else if (frequencyold == frequency) { frequency = frequency - 25; }
-							}
-							if (281 - ax[2] * 20 == fy && level > 5) { food.push("v4" + fy); left -= 1; }
-							if (301 + ax[2] * 20 == fy && level > 5) { food.push("v4" + fy); left -= 1; }
-						}
-						fy = fy + 20;
-					}
-
-
-				}
-			}
-
-			if (level > 3) {
-
-				{//h3
-					var fx = 461 - (h3 * 20) / 2;
-					var fy = 281 - hy[1] * 20;
-					for (i = 0; i < h3; i++) {
-						if (!food.includes("h5" + fx, 0)) {
-							ctx.fillStyle = "blue"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								food.push("h5" + fx);
-								left -= 1;
-								if (frequency == 100) { frequency = 800; }
-								else if (frequencyold == frequency) { frequency = frequency - 25; }
-							}
-							if (441 - ax[1] * 20 == fx && level > 4) { food.push("h5" + fx); left -= 1; }
-							if (461 + ax[1] * 20 == fx && level > 4) { food.push("h5" + fx); left -= 1; }
-							if (fx > 601 && fy < 181) { food.push("h5" + fx); left -= 1; }
-						}
-						fx = fx + 20;
-					}
-
-					var fx = 461 - (h3 * 20) / 2;
-					var fy = 301 + hy[1] * 20;
-					for (i = 0; i < h3; i++) {
-						if (!food.includes("h6" + fx, 0)) {
-							ctx.fillStyle = "blue"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								food.push("h6" + fx);
-								left -= 1;
-								if (frequency == 100) { frequency = 800; }
-								else if (frequencyold == frequency) { frequency = frequency - 25; }
-							}
-							if (441 - ax[1] * 20 == fx && level > 4) { food.push("h6" + fx); left -= 1; }
-							if (461 + ax[1] * 20 == fx && level > 4) { food.push("h6" + fx); left -= 1; }
-						}
-						fx = fx + 20;
-					}
-				}
-
-				{//v3
-					var fx = 461 + vx[1] * 20;
-					var fy = 301 - (v3 * 20) / 2;;
-					for (i = 0; i < v3; i++) {
-						if (!food.includes("v5" + fy, 0)) {
-							ctx.fillStyle = "DarkCyan"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								food.push("v5" + fy);
-								left -= 1;
-								if (frequency == 100) { frequency = 800; }
-								else if (frequencyold == frequency) { frequency = frequency - 25; }
-							}
-							if (281 - ax[2] * 20 == fy && level > 5) { food.push("v5" + fy); left -= 1; }
-							if (301 + ax[2] * 20 == fy && level > 5) { food.push("v5" + fy); left -= 1; }
-							if (fy < 181 && fx > 601) { food.push("v5" + fy); left -= 1; }
-						}
-						fy = fy + 20;
-					}
-
-					var fx = 441 - vx[1] * 20;
-					var fy = 301 - (v3 * 20) / 2;
-					for (i = 0; i < v3; i++) {
-						if (!food.includes("v6" + fy, 0)) {
-							ctx.fillStyle = "DarkCyan"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								food.push("v6" + fy);
-								left -= 1;
-								if (frequency == 100) { frequency = 800; }
-								else if (frequencyold == frequency) { frequency = frequency - 25; }
-							}
-							if (281 - ax[2] * 20 == fy && level > 5) { food.push("v6" + fy); left -= 1; }
-							if (301 + ax[2] * 20 == fy && level > 5) { food.push("v6" + fy); left -= 1; }
-						}
-						fy = fy + 20;
-					}
-
-
-				}
-			}
+			
 
 			{//sound
 				if (frequencyold !== frequency) {
@@ -611,142 +373,7 @@ function loop() {
 			}
 
 
-			//white lines
-
-			if (level > 4) {
-				{//a1
-					var fx = 461 + ax[1] * 20;
-					var fy = 301 - (a1 * 20) / 2;
-					for (i = 0; i < a1; i++) {
-						
-						if (fy > 321 | fy < 261) {
-							if (!food.includes("a1" + fy, 0)) {
-							ctx.fillStyle = "White"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fy < 181 && fx > 601) { food.push("a1" + fy);}
-							if (px == fx && py == fy) {
-								if (dir == 1) { px = px + 20; dir = 0; }
-								if (dir == 2) { py = py + 20; dir = 0; }
-								if (dir == 3) { px = px - 20; dir = 0; }
-								if (dir == 4) { py = py - 20; dir = 0; }
-							}
-							if (mx == fx && my == fy) {
-								if (px > mx) { mx = mx - 20; }
-								else if (px < mx) { mx = mx + 20; }
-
-								else if (px == mx) {
-									if (dir == 1) { mx = mx + 20; }
-									else if (dir == 3) { mx = mx - 20; }
-
-								}
-
-							}
-						}
-						}
-						fy = fy + 20;
-					}
-
-
-					var fx = 441 - ax[1] * 20;
-					var fy = 301 - (a1 * 20) / 2;
-					for (i = 0; i < a1; i++) {
-						if (fy > 321 | fy < 261) {
-							ctx.fillStyle = "White"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (px == fx && py == fy) {
-								if (dir == 1) { px = px + 20; dir = 0; }
-								if (dir == 2) { py = py + 20; dir = 0; }
-								if (dir == 3) { px = px - 20; dir = 0; }
-								if (dir == 4) { py = py - 20; dir = 0; }
-							}
-							if (mx == fx && my == fy) {
-								if (px > mx) { mx = mx - 20; }
-								else if (px < mx) { mx = mx + 20; }
-
-								else if (px == mx) {
-									if (dir == 1) {
-										mx = mx + 20;
-
-									}
-									else if (dir == 3) { mx = mx - 20; }
-
-
-								}
-							}
-						}
-						fy = fy + 20;
-					}
-
-
-				}
-			}
-
-			if (level > 5) {
-				{//a2
-					var fx = 461 - (a2 * 20) / 2;
-					var fy = 281 - ax[2] * 20;
-					for (i = 0; i < a2; i++) {
-						if (fx > 481 | fx < 421) {
-							if (!food.includes("a2" + fy, 0)) {
-							if (fx > 601 && fy < 181) { food.push("a2" + fx);}
-							ctx.fillStyle = "white"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								if (dir == 1) { px = px + 20; dir = 0; }
-								if (dir == 2) { py = py + 20; dir = 0; }
-								if (dir == 3) { px = px - 20; dir = 0; }
-								if (dir == 4) { py = py - 20; dir = 0; }
-							}
-
-							if (mx == fx && my == fy) {
-								if (py > my) { my = my - 20; }
-								else if (py < my) { my = my + 20; }
-
-								else if (py == my) {
-									if (dir == 4) { my = my + 20; }
-									else if (dir == 2) { my = my - 20; }
-
-								}
-
-							}
-							}
-						}
-
-						fx = fx + 20;
-					}
-
-					var fx = 461 - (a2 * 20) / 2;
-					var fy = 301 + ax[2] * 20;
-					for (i = 0; i < a2; i++) {
-						if (fx > 481 | fx < 421) {
-							ctx.fillStyle = "white"
-							ctx.fillRect(fx, fy, 18, 18);
-							if (fx == px && fy == py) {
-								if (dir == 1) { px = px + 20; dir = 0; }
-								if (dir == 2) { py = py + 20; dir = 0; }
-								if (dir == 3) { px = px - 20; dir = 0; }
-								if (dir == 4) { py = py - 20; dir = 0; }
-							}
-
-							if (mx == fx && my == fy) {
-								if (py > my) { my = my - 20; }
-								else if (py < my) { my = my + 20; }
-
-								else if (py == my) {
-									if (dir == 4) { my = my + 20; }
-									else if (dir == 2) { my = my - 20; }
-
-								}
-
-							}
-						}
-
-						fx = fx + 20;
-					}
-				}
-
-
-			}
+			drawline();
 			
 			// score drawing
 			
@@ -874,7 +501,7 @@ function levelstart() {
 
 
 
-
+//called after death
 function newlife() {
 	if (gameover == false) {
 		px = 21;
@@ -888,6 +515,7 @@ function newlife() {
 	}
 }
 
+//ends game and restarts
 function gameend() {
 	speed = 500;
 	hy = ["e"];
@@ -907,6 +535,10 @@ function gameend() {
 	
 }
 
+
+
+
+// didn't write this swipe detector
 
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
@@ -935,7 +567,7 @@ function handleTouchMove(evt) {
 	var xDiff = xDown - xUp;
 	var yDiff = yDown - yUp;
 
-	if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
+	if (Math.abs(xDiff) > Math.abs(yDiff)) {//most significant
 		if (xDiff > 0) {
 			dir = 1;
 		} else {
@@ -948,7 +580,7 @@ function handleTouchMove(evt) {
 			dir = 4;
 		}
 	}
-	/* reset values */
+	// reset values 
 	xDown = null;
 	yDown = null;
 };
@@ -964,7 +596,7 @@ function write(string, color, x, y) {
 	var w4 = [];
 	var w5 = [];
 	var v = 0;
-	while (v < 44) {
+	while (v < 44) {//defines how to draw letters and numbers
 		if (string[v] == "a") { w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 0, 1); }
 		if (string[v] == "b") { w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 1); w3.push(0, 1, 1, 1); w4.push(0, 1, 0, 1); w5.push(0, 1, 1, 1); }
 		if (string[v] == "c") { w1.push(0, 1, 1, 1); w2.push(0, 1, 0, 0); w3.push(0, 1, 0, 0); w4.push(0, 1, 0, 0); w5.push(0, 1, 1, 1); }
@@ -1008,7 +640,7 @@ function write(string, color, x, y) {
 		if (w3[v] == 1) { ctx.fillRect(x + v * 20, y + 40, 18, 18) }
 		if (w4[v] == 1) { ctx.fillRect(x + v * 20, y + 60, 18, 18) }
 		if (w5[v] == 1) { ctx.fillRect(x + v * 20, y + 80, 18, 18) }
-		v = v + 1;
+		v++
 
 
 	}
