@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html style="background-color:dimgray; text-align: center;"  oncontextmenu="return false;" >
+
+<head>
+	<title>Simple Fighting Game</title>
+	<link rel="icon" href="icon.png">
+	<link rel="stylesheet" href="styles.css">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+</head>
+
+<body style="text-align: center;">	
+
+		<h1 style="color:black">SELECT A STAGE</h1>
+		
+		<div></canvas>
+		<a onmouseenter="hover()" href="./PLATFORM/index.html"><img src="platform.png" style="width:28%; height:20%"></img></a>
+		<a onmouseenter="hover()" href="./LONGD/index.html"><img src="longd.png" style="width:28%; height:20%"></img></a>
+		<a onmouseenter="hover()" href="./DOUBLE/index.html"><img src="DOUBLE.png" style="width:28%; height:20%"></img></a>
+		<a onmouseenter="hover()" href="./TRAINING/index.html"><img src="TRAINING.png" style="width:28%; height:20%"></img></a>
+		<a onmouseenter="hover()" href="./TRIPLE/index.html"><img src="TRIPLE.png" style="width:28%; height:20%"></img></a>
+		<a onmouseenter="hover()" href="./CEILING/index.html"><img src="CEILING.png" style="width:28%; height:20%"></img></a>
+		</div>
+		
+		<script>
+		
+		function hover(){
+		var context = new AudioContext()
+		var o = context.createOscillator()
+		var g = context.createGain()
+		var frequency = 51.91
+		o.frequency.value = frequency
+		o.type = "sine"
+		o.connect(g)
+		g.connect(context.destination)
+		o.start(0)
+		setTimeout(stop(), 10)
+				
+		function stop(){
+		g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 1)
+		}
+		}
+
+		</script>
+</body>
+
+</html>
